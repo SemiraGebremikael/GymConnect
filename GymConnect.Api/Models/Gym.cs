@@ -9,8 +9,10 @@ namespace GymConnect.Api.Models
 
         [Required]
         public string Name { get; set; } = string.Empty;
-
-        public string? City { get; set; }
+        [Required]
+        public string Country { get; set; } = string.Empty;
+        [Required]
+        public string City { get; set; } = string.Empty;
 
         public List<User> Members { get; set; } = new();
     }

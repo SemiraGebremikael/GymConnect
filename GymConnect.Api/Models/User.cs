@@ -13,6 +13,8 @@ namespace GymConnect.Api.Models
         [Required]
         public string LastName { get; set; } = string.Empty;
 
+        public string Name => FirstName + " " + LastName;
+
         [Required]
         [EmailAddress]
         public string Email { get; set; } = string.Empty;
@@ -23,6 +25,6 @@ namespace GymConnect.Api.Models
         public Guid GymId { get; set; }
         public Gym? Gym { get; set; }
 
-        public string? TrainingFocus { get; set; }  // optional
+        //public string? TrainingFocus { get; set; }  // optional
     }
 }
