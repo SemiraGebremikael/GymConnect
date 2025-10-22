@@ -35,8 +35,8 @@ namespace GymConnect.Api.Controllers
                     }
                 };
 
-                var savedUser = await _userService.RegisterAsync(user);
-                return Ok(savedUser);
+                 await _userService.RegisterAsync(user);
+                return Ok();
             }
             catch (ArgumentException ex)
             {
