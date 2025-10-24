@@ -16,19 +16,35 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 //var app = builder.Build();
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+
+
+//builder.Services.AddDbContext<AppDbContext>(options =>
+//{
+//    options
+//        .UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
+//        .UseSnakeCaseNamingConvention(); // aktivera små bokstäver med underscore
+//});
+
+
+
 // Add Services
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IGymService, GymService>();
+builder.Services.AddScoped<IAuthService, AuthService>();    
+builder.Services.AddScoped<IMessageService, MessageService>();
 
 
 // Add Controllers
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+
 
 
 // JWT Authentication

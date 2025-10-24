@@ -14,14 +14,14 @@ namespace GymConnect.Api.Services
             _context = context;
         }
 
-        public async Task<List<UserResponseDto>> GetMembersByGymIdAsync(Guid gymId)
+        public async Task<List<RegisterResponseDto>> GetMembersByGymIdAsync(Guid gymId)
         {
-            var members = await _context.Users
+            var members = await _context.users
                 .Include(u => u.Gym)
                 .Where(u => u.GymId == gymId)
                 .ToListAsync();
 
-            return members.Select(u => new UserResponseDto
+            return members.Select(u => new RegisterResponseDto
             {
                 Id = u.Id,
                 FirstName = u.FirstName,

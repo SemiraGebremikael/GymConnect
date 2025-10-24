@@ -7,20 +7,37 @@ public class AppDbContext :DbContext
     public AppDbContext() { }
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
-    public DbSet<User> Users => Set<User>();
-    public DbSet<Gym> Gyms => Set<Gym>();
-    public DbSet<Message> Messages => Set<Message>();
+    public DbSet<User> users { get; set; }
+    public DbSet<Gym> gyms { get; set; }
+    public DbSet<Message> messages { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
 
-        modelBuilder.Entity<User>()
-            .HasOne(u => u.Gym)
-            .WithMany(g => g.Members)
-            .HasForeignKey(u => u.GymId);
 
+        modelBuilder.Entity<User>()
+         .HasOne(u => u.Gym)
+         .WithMany(g => g.Users)
+         .HasForeignKey(u => u.GymId)
+         .OnDelete(DeleteBehavior.Cascade);
+
+
+        modelBuilder.Entity<Message>()
+        .HasOne(m => m.Sender)
+        .WithMany(u => u.SentMessages)
+        .HasForeignKey(m => m.SenderId)
+        .OnDelete(DeleteBehavior.Restrict);
+
+       
+        modelBuilder.Entity<Message>()
+            .HasOne(m => m.Receiver)
+            .WithMany(u => u.ReceivedMessages)
+            .HasForeignKey(m => m.ReceiverId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
+
+ 
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

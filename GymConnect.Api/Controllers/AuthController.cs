@@ -1,7 +1,6 @@
 ﻿using GymConnect.Api.Models;
 using GymConnect.Api.Dto;
 using GymConnect.Api.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GymConnect.Api.Controllers
@@ -10,14 +9,14 @@ namespace GymConnect.Api.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly IUserService _userService;
+        private readonly IAuthService _authService;
 
-        public AuthController(IUserService userService)
+        public AuthController(IAuthService authService)
         {
-            _userService = userService;
+            _authService = authService;
         }
-        [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] UserRegisterRequestDto request)
+        [HttpPost("Register")]
+        public async Task<IActionResult> Register([FromBody] RegisterRequestDto request)
         {
             try
             {
@@ -35,12 +34,8 @@ namespace GymConnect.Api.Controllers
                     }
                 };
 
-                 await _userService.RegisterAsync(user);
+                 await _authService.RegisterAsync(user);
                 return Ok();
-            }
-            catch (ArgumentException ex)
-            {
-                return Conflict(new { message = ex.Message });
             }
             catch (Exception ex)
             {
