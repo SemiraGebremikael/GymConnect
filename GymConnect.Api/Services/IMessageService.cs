@@ -6,6 +6,6 @@ namespace GymConnect.Api.Services
     public interface IMessageService
     {
         Task<MessageResponseDto> SendMessageAsync(Guid senderId, Guid receiverId, string content);
-        Task<List<MessageResponseDto>> GetMessagesAsync(Guid userId, Guid otherUserId);
+        Task<IEnumerable<MessageResponseDto>> GetConversationAsync(Guid userId, Guid otherUserId, int page, int pageSaize);
     }
 }

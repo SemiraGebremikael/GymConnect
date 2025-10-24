@@ -21,7 +21,7 @@ namespace GymConnect.Api.Models
         public string LastName { get; set; } = string.Empty;
 
         [NotMapped]
-        public string Name => FirstName + " " + LastName;
+        public string FullName => FirstName + " " + LastName;
 
         [Required]
         [Column("email")]

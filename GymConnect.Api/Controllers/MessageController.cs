@@ -1,15 +1,14 @@
 ﻿using GymConnect.Api.Dto;
+using GymConnect.Api.Dtos;
 using GymConnect.Api.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GymConnect.Api.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class MessageController : ControllerBase
     {
-        
         private readonly IMessageService _messageService;
 
         public MessageController(IMessageService messageService)
@@ -20,17 +19,31 @@ namespace GymConnect.Api.Controllers
         [HttpPost("SendMessage")]
         public async Task<IActionResult> SendMessage([FromBody] MessageRequestDto request)
         {
-            var message = await _messageService.SendMessageAsync(request.SenderId, request.ReceiverId, request.Content);
-            return Ok(message);
+            try
+            {
+                var result = await _messageService.SendMessageAsync(request.SenderId, request.ReceiverId, request.Content);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { error = ex.Message });
+            }
         }
 
-        [HttpGet("{userId}/{otherUserId}")]
-        public async Task<IActionResult> GetMessages(Guid userId, Guid otherUserId)
+        [HttpGet("GetConversation")]
+        public async Task<IActionResult> GetConversation([FromQuery] Guid userId, [FromQuery] Guid otherUserId, [FromQuery] int page = 1, [FromQuery] int pageSize = 20)
         {
-            var messages = await _messageService.GetMessagesAsync(userId, otherUserId);
-            return Ok(messages);
+            try
+            {
+                var result = await _messageService.GetConversationAsync(userId, otherUserId, page, pageSize);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { error = ex.Message });
+            }
         }
     }
 
-
+   
 }
