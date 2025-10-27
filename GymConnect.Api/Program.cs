@@ -1,3 +1,4 @@
+using GymConnect.Api.Hubs;
 using GymConnect.Api.Peristence;
 using GymConnect.Api.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -27,7 +28,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 //{
 //    options
 //        .UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
-//        .UseSnakeCaseNamingConvention(); // aktivera små bokstäver med underscore
+//        .UseSnakeCaseNamingConvention();
 //});
 
 
@@ -37,6 +38,8 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IGymService, GymService>();
 builder.Services.AddScoped<IAuthService, AuthService>();    
 builder.Services.AddScoped<IMessageService, MessageService>();
+builder.Services.AddSignalR();
+
 
 
 // Add Controllers
@@ -83,5 +86,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapHub<ChatHub>("/hubs/chat");
+
 
 app.Run();
