@@ -2,6 +2,7 @@ using GymConnect.Api.Hubs;
 using GymConnect.Api.Peristence;
 using GymConnect.Api.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Configuration;
@@ -19,7 +20,6 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 
-
 //builder.Services.AddDbContext<AppDbContext>(options =>
 //{
 //    options
@@ -35,6 +35,18 @@ builder.Services.AddScoped<IGymService, GymService>();
 builder.Services.AddScoped<IAuthService, AuthService>();    
 builder.Services.AddScoped<IMessageService, MessageService>();
 builder.Services.AddSignalR();
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy
+            .WithOrigins("http://localhost:4200") // Angular URL
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials();
+    });
+});
+
 
 
 
@@ -78,7 +90,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseCors();
 app.UseAuthorization();
 
 app.MapControllers();
