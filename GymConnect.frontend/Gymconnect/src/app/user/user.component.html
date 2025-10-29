@@ -1,0 +1,14 @@
+<h2>users on thr gym: {{ gymToFetch }}</h2>
+
+<div *ngIf="users$ | async as users; else loading">
+  <p *ngIf="users.length === 0">Inga användare hittades.</p>
+  <ul *ngIf="users.length > 0">
+    <li *ngFor="let user of users">
+      {{ user.firstName }} (ID: {{ user.lastName }}) - {{ user.city }}, {{ user.country }}
+    </li>
+  </ul>
+</div>
+
+<ng-template #loading>
+  <p>Laddar user...</p>
+</ng-template>
