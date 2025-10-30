@@ -39,6 +39,7 @@ namespace GymConnect.Api.Services
                     Id = u.Id,
                     FirstName = u.FirstName,
                     LastName = u.LastName,
+                    FullName = $"{u.FirstName} {u.LastName}",
                     Country = u.Gym!.Country,
                     City = u.Gym!.City
                 })

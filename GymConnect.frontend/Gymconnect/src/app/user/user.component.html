@@ -1,14 +1,28 @@
-<h2>users on thr gym: {{ gymToFetch }}</h2>
+<h2>Users in gym: {{ gymToFetch }}</h2>
 
 <div *ngIf="users$ | async as users; else loading">
-  <p *ngIf="users.length === 0">Inga användare hittades.</p>
-  <ul *ngIf="users.length > 0">
-    <li *ngFor="let user of users">
-      {{ user.firstName }} (ID: {{ user.lastName }}) - {{ user.city }}, {{ user.country }}
+  <p *ngIf="users.length === 0">No users found.</p>
+
+  <ul *ngIf="users.length > 0" class="user-list">
+    <li *ngFor="let user of users"
+        (click)="selectUser(user)"
+        [class.selected]="user.id === userService.selectedUserId">
+      <span>{{ user.fullName }}</span>
+      
+      <small>{{ user.country }} - {{ user.city }}</small>
     </li>
   </ul>
 </div>
 
+<div class="chat-wrapper">
+  <div class="chat-box" *ngIf="selectedUser">
+  <h3>Send message to {{ selectedUser.fullName }}</h3>
+    <textarea [(ngModel)]="messageContent" placeholder="Write your message..."></textarea>
+    <button (click)="sendMessage()">Send</button>
+  </div>
+</div>
+
+
 <ng-template #loading>
-  <p>Laddar user...</p>
+  <p>Loading users...</p>
 </ng-template>
