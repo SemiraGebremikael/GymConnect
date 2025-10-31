@@ -6,6 +6,7 @@ import { UserService } from '../../services/user-service/user-service';
 import { ActivatedRoute } from '@angular/router';
 import { MessageResponseDto } from '../../dto/message-response-dto';
 import { ChatService } from '../../services/chat-service/chat.service';
+import { GetConversationRequestDto } from '../../dto/get-conversation-request-dto';
 
 @Component({
   selector: 'app-user-chat',
@@ -26,26 +27,36 @@ import { ChatService } from '../../services/chat-service/chat.service';
 
   public route = inject(ActivatedRoute);
 
-  ngOnInit(): void {
-    const userId = this.route.snapshot.paramMap.get('id');
-    if (userId) {
-      this.selectedUser = this.userService.getUserById(userId);
-      this.loadConversation(userId);
+ 
 
-    }
-    
+ngOnInit(): void {
+  const otherUserId = this.route.snapshot.paramMap.get('id');
+  if (otherUserId) {
+    this.selectedUserId = otherUserId;
+    this.selectedUser = this.userService.getUserById(otherUserId);
+    this.loadConversation(otherUserId);
   }
+}
 
 
-  loadConversation(otherUserId: string) {
-    this.chatService.getConversation(this.currentUserId, otherUserId).subscribe({
-      next: res => {
-        this.messages = res;
-        console.log('Loaded conversation:', res);
-      },
-      error: err => console.error('Error loading conversation:', err)
-    });
-  }
+loadConversation(otherUserId: string): void {
+  if (!this.currentUserId) return;
+
+  const request = new GetConversationRequestDto();
+  request.userId = this.currentUserId;
+  request.otherUserId = otherUserId;
+  request.page = 1;    
+  request.pageSize = 20; 
+
+  this.chatService.getConversation(request)?.subscribe({
+    next: (msgs) => {
+      this.messages = msgs;
+    },
+    error: (err) => console.error('Error loading messages:', err)
+  });
+}
+
+
 
 
  sendMessage() {

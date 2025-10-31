@@ -31,11 +31,16 @@ namespace GymConnect.Api.Controllers
         }
 
         [HttpGet("GetConversation")]
-        public async Task<IActionResult> GetConversation([FromQuery] Guid userId, [FromQuery] Guid otherUserId, [FromQuery] int page = 1, [FromQuery] int pageSize = 20)
+        public async Task<IActionResult> GetConversation([FromQuery] GetConversationRequestDto request) 
         {
             try
             {
-                var result = await _messageService.GetConversationAsync(userId, otherUserId, page, pageSize);
+                var result = await _messageService.GetConversationAsync(
+                 request.UserId,
+                 request.OtherUserId,
+                 request.Page,
+                 request.PageSize
+         );
                 return Ok(result);
             }
             catch (Exception ex)

@@ -5,6 +5,7 @@ import { IUser } from '../../interface/iuser/iuser';
 import { MessageRequestDto } from '../../dto/message-request-dto';
 import { MessageResponseDto } from '../../dto/message-response-dto';
 import { UserDto } from '../../dto/userDto';
+import { GetConversationRequestDto } from '../../dto/get-conversation-request-dto';
 @Injectable({
   providedIn: 'root'
 })
@@ -24,10 +25,14 @@ sendMessage(request: MessageRequestDto): Observable<MessageResponseDto> {
     );
   }
 
-  getConversation(userId: string, otherUserId: string, page: number = 1, pageSize: number = 20): Observable<MessageResponseDto[]> {
-  return this.http.get<MessageResponseDto[]>(
-    `${this.baseUrl}/Message/GetConversation?userId=${userId}&otherUserId=${otherUserId}&page=${page}&pageSize=${pageSize}`
-  );
-}
+getConversation(request: GetConversationRequestDto): Observable<MessageResponseDto[]> {
+  const params = {
+    userId: request.userId,
+    otherUserId: request.otherUserId,
+    page: request.page?.toString() || '1',
+    pageSize: request.pageSize?.toString() || '20'
+  };
+  return this.http.get<MessageResponseDto[]>(`${this.baseUrl}/message/GetConversation`, { params });
 
+}
 }

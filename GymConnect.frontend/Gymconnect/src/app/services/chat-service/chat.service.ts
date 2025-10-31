@@ -3,6 +3,7 @@ import { MessageRequestDto } from '../../dto/message-request-dto';
 import { MessageResponseDto } from '../../dto/message-response-dto';
 import { Observable } from 'rxjs';
 import { ApiServices } from '../api-service/api-services';
+import { GetConversationRequestDto } from '../../dto/get-conversation-request-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -20,8 +21,8 @@ export class ChatService {
   }
   
 
-  getConversation(userId: string, otherUserId: string, page: number = 1, pageSize: number = 20): Observable<MessageResponseDto[]> {
-    return this.apiService.getConversation(userId, otherUserId, page, pageSize);
+  getConversation(request:GetConversationRequestDto): Observable<MessageResponseDto[]> {
+    return this.apiService.getConversation(request);
 }
 
 }
