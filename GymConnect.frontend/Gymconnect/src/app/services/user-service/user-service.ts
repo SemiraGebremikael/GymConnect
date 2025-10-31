@@ -1,9 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ApiServices } from '../api-service/api-services';
-import { MessageRequestDto } from '../../dto/message-request-dto';
 import { UserDto } from '../../dto/userDto';
-import { MessageResponseDto } from '../../dto/message-response-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -56,10 +54,5 @@ selectUser(user: UserDto) {
   console.log('Selected user:', user);
 }
 
-  sendMessage(request: MessageRequestDto): Observable<MessageResponseDto> | undefined {
-    if (!request.ReceiverId) return;
-        console.log(' Sending message to API:', request);
-
-    return this.apiService.sendMessage(request);
-  }
+ 
 }

@@ -24,4 +24,10 @@ sendMessage(request: MessageRequestDto): Observable<MessageResponseDto> {
     );
   }
 
+  getConversation(userId: string, otherUserId: string, page: number = 1, pageSize: number = 20): Observable<MessageResponseDto[]> {
+  return this.http.get<MessageResponseDto[]>(
+    `${this.baseUrl}/Message/GetConversation?userId=${userId}&otherUserId=${otherUserId}&page=${page}&pageSize=${pageSize}`
+  );
+}
+
 }

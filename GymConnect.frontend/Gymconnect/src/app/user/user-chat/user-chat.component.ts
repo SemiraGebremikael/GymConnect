@@ -5,6 +5,7 @@ import { UserDto } from '../../dto/userDto';
 import { UserService } from '../../services/user-service/user-service';
 import { ActivatedRoute } from '@angular/router';
 import { MessageResponseDto } from '../../dto/message-response-dto';
+import { ChatService } from '../../services/chat-service/chat.service';
 
 @Component({
   selector: 'app-user-chat',
@@ -21,14 +22,31 @@ import { MessageResponseDto } from '../../dto/message-response-dto';
   currentUserId = '7bccf14b-9ab0-43ed-bc81-1ae6d1cf02df'; 
 
   public userService = inject(UserService);
+    public chatService = inject(ChatService);
+
   public route = inject(ActivatedRoute);
 
   ngOnInit(): void {
     const userId = this.route.snapshot.paramMap.get('id');
     if (userId) {
       this.selectedUser = this.userService.getUserById(userId);
+      this.loadConversation(userId);
+
     }
+    
   }
+
+
+  loadConversation(otherUserId: string) {
+    this.chatService.getConversation(this.currentUserId, otherUserId).subscribe({
+      next: res => {
+        this.messages = res;
+        console.log('Loaded conversation:', res);
+      },
+      error: err => console.error('Error loading conversation:', err)
+    });
+  }
+
 
  sendMessage() {
     if (!this.selectedUser || !this.messageContent.trim()) return;
@@ -37,7 +55,7 @@ import { MessageResponseDto } from '../../dto/message-response-dto';
       ReceiverId: this.selectedUser.id,
       Content: this.messageContent
     };
-    this.userService.sendMessage(request)?.subscribe({
+    this.chatService.sendMessage(request)?.subscribe({
       next: msg => {
         this.messages.push(msg);
         this.messageContent = '';
