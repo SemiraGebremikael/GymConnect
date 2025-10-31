@@ -44,6 +44,12 @@ export class UserService {
     return this.userSource.getValue();
   }
 
+
+  getUserById(id: string): UserDto | null {
+  const users = this.userSource.getValue(); 
+  return users.find(u => u.id === id) || null;
+}
+
 selectUser(user: UserDto) {
   this.selectedUser = user;
   this.selectedUserId = user.id;

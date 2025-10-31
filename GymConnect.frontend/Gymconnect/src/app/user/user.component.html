@@ -1,5 +1,4 @@
 <h2>Users in gym: {{ gymToFetch }}</h2>
-
 <div *ngIf="users$ | async as users; else loading">
   <p *ngIf="users.length === 0">No users found.</p>
 
@@ -13,15 +12,6 @@
     </li>
   </ul>
 </div>
-
-<div class="chat-wrapper">
-  <div class="chat-box" *ngIf="selectedUser">
-  <h3>Send message to {{ selectedUser.fullName }}</h3>
-    <textarea [(ngModel)]="messageContent" placeholder="Write your message..."></textarea>
-    <button (click)="sendMessage()">Send</button>
-  </div>
-</div>
-
 
 <ng-template #loading>
   <p>Loading users...</p>

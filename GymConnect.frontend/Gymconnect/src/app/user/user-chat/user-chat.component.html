@@ -1,0 +1,14 @@
+ <div class="chat-wrapper">
+  <div class="messages">
+    <div *ngFor="let msg of messages"
+         class="message"
+         [ngClass]="msg.sender.id === currentUserId ? 'sent' : 'received'">
+      <strong>{{ msg.sender.fullName }}:</strong> {{ msg.content }}
+    </div>
+  </div>
+
+  <div class="input-area">
+    <textarea [(ngModel)]="messageContent" rows="2" placeholder="Write a message..."></textarea>
+    <button (click)="sendMessage()">Send</button>
+  </div>
+</div> 

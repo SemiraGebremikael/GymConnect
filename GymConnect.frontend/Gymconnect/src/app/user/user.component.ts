@@ -4,12 +4,11 @@ import { CommonModule } from '@angular/common';
 import { UserService } from '../services/user-service/user-service';
 import { FormsModule } from '@angular/forms';
 import { UserDto } from '../dto/userDto';
-import { MessageRequestDto } from '../dto/message-request-dto';
-
+import { Router, RouterModule } from '@angular/router';
 @Component({
   selector: 'app-user',
   standalone: true,
-  imports: [CommonModule,FormsModule],
+  imports: [CommonModule,FormsModule,RouterModule],
   templateUrl: './user.component.html',
   styleUrl: './user.component.scss',
   
@@ -19,12 +18,11 @@ export class UserComponent {
   selectedUser: UserDto | null = null;
   selectedUserId: string | null = null;
   gymToFetch = 'nordicgym';
-  messageContent: string = '';
   currentUserId = '7bccf14b-9ab0-43ed-bc81-1ae6d1cf02df'; 
 
 
 
-  constructor(public userService: UserService) {
+  constructor(public userService: UserService, private router: Router) {
     this.users$ = this.userService.user$;
   }
 
@@ -35,32 +33,10 @@ export class UserComponent {
 selectUser(user: UserDto) {
   this.selectedUser = user;
   this.userService.selectedUser = user;
-  this.userService.selectedUserId = user.id; 
-
+  this.router.navigate(['/chat', user.id]); 
   console.log('User clicked:', user);
   console.log('Selected user id:', this.userService.selectedUserId); 
 }
 
-
-  sendMessage() {
-    if (!this.userService.selectedUserId || !this.messageContent.trim()) return;
-        console.log('Sending message:', this.messageContent, 'to', this.userService.selectedUser?.fullName);
-
-    const request = new MessageRequestDto();
-    //  request.SenderId = this.currentUserId;      
-    // request.ReceiverId = this.selectedUser!.id;
-    request.SenderId = this.currentUserId;
-    request.ReceiverId = this.userService.selectedUserId;
-    request.Content = this.messageContent;
-      console.log('Sending message payload:', request); 
-
-    this.userService.sendMessage(request)?.subscribe({
-      next: res => {
-        console.log('Message sent', res);
-        this.messageContent = '';
-      },
-      error: err => console.error(err)
-    });
-  }
 
 }
