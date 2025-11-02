@@ -1,30 +1,16 @@
-<!-- <h2>Users in gym: {{ gymToFetch }}</h2>
-<div *ngIf="users$ | async as users; else loading">
-  <p *ngIf="users.length === 0">No users found.</p>
 
-  <ul *ngIf="users.length > 0" class="user-list">
-    <li *ngFor="let user of users"
-        (click)="selectUser(user)"
-        [class.selected]="user.id === userService.selectedUserId">
-      <span>{{ user.fullName }}</span>
-      
-      <small>{{ user.country }} - {{ user.city }}</small>
-    </li>
-  </ul>
+<div *ngIf="users.length === 0">
+  <p>Loading users or no users found.</p>
 </div>
+  <h2>Users in gym: {{ gymToFetch }}</h2>
 
-<ng-template #loading>
-  <p>Loading users...</p>
-</ng-template> -->
+<div *ngIf="users.length > 0" class="story-container">
+  <button class="nav-btn left" (click)="previousUser()">&lt;</button>
 
-
-<div class="user-navigator" *ngIf="selectedUser">
-  <button class="nav-btn" (click)="previousUser()">&lt;</button>
-
-  <div class="user-card" (click)="selectUser(selectedUser)">
-    <p><strong>{{ selectedUser.fullName }}</strong></p>
-    <small>{{ selectedUser.country }} - {{ selectedUser.city }}</small>
+<div class="user-card" (click)="selectUser(selectedUser!)">
+    <p class="name">{{ selectedUser?.fullName }}</p>
+    <small class="location">{{ selectedUser?.country }} - {{ selectedUser?.city }}</small>
   </div>
 
-  <button class="nav-btn" (click)="nextUser()">&gt;</button>
+  <button class="nav-btn right" (click)="nextUser()">&gt;</button>
 </div>

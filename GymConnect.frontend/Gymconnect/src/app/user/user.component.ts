@@ -40,6 +40,7 @@ export class UserComponent {
   }
 
 selectUser(user: UserDto) {
+   if (!user) return; 
   this.selectedUser = user;
   this.userService.selectedUser = user;
   this.router.navigate(['/chat', user.id]); 
