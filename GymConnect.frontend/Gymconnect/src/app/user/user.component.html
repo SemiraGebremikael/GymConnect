@@ -1,4 +1,4 @@
-<h2>Users in gym: {{ gymToFetch }}</h2>
+<!-- <h2>Users in gym: {{ gymToFetch }}</h2>
 <div *ngIf="users$ | async as users; else loading">
   <p *ngIf="users.length === 0">No users found.</p>
 
@@ -15,4 +15,16 @@
 
 <ng-template #loading>
   <p>Loading users...</p>
-</ng-template>
+</ng-template> -->
+
+
+<div class="user-navigator" *ngIf="selectedUser">
+  <button class="nav-btn" (click)="previousUser()">&lt;</button>
+
+  <div class="user-card" (click)="selectUser(selectedUser)">
+    <p><strong>{{ selectedUser.fullName }}</strong></p>
+    <small>{{ selectedUser.country }} - {{ selectedUser.city }}</small>
+  </div>
+
+  <button class="nav-btn" (click)="nextUser()">&gt;</button>
+</div>

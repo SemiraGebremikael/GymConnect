@@ -15,6 +15,8 @@ import { Router, RouterModule } from '@angular/router';
 })
 export class UserComponent {
   users$: Observable<UserDto[]>;
+  users: UserDto[] = [];
+  selectedIndex: number = 0;
   selectedUser: UserDto | null = null;
   selectedUserId: string | null = null;
   gymToFetch = 'nordicgym';
@@ -28,6 +30,13 @@ export class UserComponent {
 
   ngOnInit(): void {
     this.userService.loadUsers(this.gymToFetch);
+     this.userService.user$.subscribe(users => {
+      this.users = users;
+      if (users.length > 0) {
+        this.selectedIndex = 0;
+        this.selectedUser = this.users[0]; 
+      }
+    });
   }
 
 selectUser(user: UserDto) {
@@ -37,6 +46,19 @@ selectUser(user: UserDto) {
   console.log('User clicked:', user);
   console.log('Selected user id:', this.userService.selectedUserId); 
 }
+
+
+previousUser() {
+    if (this.users.length === 0) return;
+    this.selectedIndex = (this.selectedIndex - 1 + this.users.length) % this.users.length;
+    this.selectedUser = this.users[this.selectedIndex];
+  }
+
+  nextUser() {
+    if (this.users.length === 0) return;
+    this.selectedIndex = (this.selectedIndex + 1) % this.users.length;
+    this.selectedUser = this.users[this.selectedIndex]; 
+  }
 
 
 }
