@@ -6,5 +6,6 @@ namespace GymConnect.Api.Services
     public interface IUserService
     {
         Task<IEnumerable<UserDto>> GetAllUsersAsync(string gymName);
+        Task<IEnumerable<UserDto>> SearchUsersAsync(string useName, string city);
     }
 }

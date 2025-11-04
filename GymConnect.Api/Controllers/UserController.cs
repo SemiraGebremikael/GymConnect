@@ -37,8 +37,25 @@ namespace GymConnect.Api.Controllers
             }
         }
 
+        [HttpGet("Search")]
+        public async Task<IActionResult> SearchUsers([FromQuery] string userName, [FromQuery] string city)
+        {
+            try
+            {
+                var result = await _userService.SearchUsersAsync(userName, city);
+                if (!result.Any())
+                    return NotFound("No users were found ");
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { error = ex.Message });
+            }
+        }
 
-        
+
+
+
 
 
     }

@@ -3,8 +3,10 @@ using GymConnect.Api.Models;
 using GymConnect.Api.Peristence;
 using Microsoft.EntityFrameworkCore;
 using System.Collections;
+using System.Diagnostics.Metrics;
 using System.Threading;
 using System.Xml.Linq;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace GymConnect.Api.Services
 {
@@ -48,8 +50,24 @@ namespace GymConnect.Api.Services
             return users;
         }
 
+        public async Task<IEnumerable<UserDto>> SearchUsersAsync(string useName, string city)
+        {
+            var users = await _context.users
+            .Include(u => u.Gym)
+            .Where(u => u.Gym != null && u.Gym.City == city &&
+                        (u.FirstName.Contains(useName) || u.LastName.Contains(useName)))
+            .ToListAsync();
 
+            return users.Select(u => new UserDto
+            {
+                Id = u.Id,
+                FullName = u.FirstName + " " + u.LastName,
+                Country = u.Gym?.Country ?? "",
+                City = u.Gym?.City ?? ""
+            });
+        }
 
+          
 
         //public async Task<UserResponseDto?> GetByEmailAsync(string email)
         //{
