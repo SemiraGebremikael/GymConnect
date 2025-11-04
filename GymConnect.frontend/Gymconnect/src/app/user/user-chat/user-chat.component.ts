@@ -7,11 +7,13 @@ import { ActivatedRoute } from '@angular/router';
 import { MessageResponseDto } from '../../dto/message-response-dto';
 import { ChatService } from '../../services/chat-service/chat.service';
 import { GetConversationRequestDto } from '../../dto/get-conversation-request-dto';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-user-chat',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, MatIconModule, MatButtonModule],
   templateUrl: './user-chat.component.html',
   styleUrl: './user-chat.component.scss',
 })
@@ -38,7 +40,9 @@ ngOnInit(): void {
   }
 }
 
-
+goBack(): void {
+  window.history.back();
+}
 loadConversation(otherUserId: string): void {
   if (!this.currentUserId) return;
 

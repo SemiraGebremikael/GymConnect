@@ -1,15 +1,21 @@
 :host {
   display: block;
   max-width: 600px;
-  margin: 2rem auto;
+  margin: 0 auto 2rem auto;
+
   padding: 1rem;
   border-radius: 10px;
 } 
 
+.back-icon:hover {
+  cursor: pointer;
+  color: #283a4d;
+
+}
 .chat-wrapper {
   display: flex;
   flex-direction: column;
-  height: 80vh;
+  height: 75vh;
   max-width: 600px;
   margin: 0 auto;
   background: #fff;
