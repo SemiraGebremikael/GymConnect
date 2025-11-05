@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace GymConnect.Api.Controllers
 {
@@ -38,11 +39,12 @@ namespace GymConnect.Api.Controllers
         }
 
         [HttpGet("Search")]
-        public async Task<IActionResult> SearchUsers([FromQuery] string userName, [FromQuery] string city)
+        public async Task<IActionResult> SearchUsers([FromQuery] string query = "")
         {
             try
             {
-                var result = await _userService.SearchUsersAsync(userName, city);
+                var result = await _userService.SearchAsync(query);
+
                 if (!result.Any())
                     return NotFound("No users were found ");
                 return Ok(result);
@@ -52,8 +54,6 @@ namespace GymConnect.Api.Controllers
                 return BadRequest(new { error = ex.Message });
             }
         }
-
-
 
 
 

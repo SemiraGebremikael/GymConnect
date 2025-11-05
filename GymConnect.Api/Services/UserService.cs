@@ -1,4 +1,5 @@
 ﻿using GymConnect.Api.Dto;
+using GymConnect.Api.Mappings;
 using GymConnect.Api.Models;
 using GymConnect.Api.Peristence;
 using Microsoft.EntityFrameworkCore;
@@ -50,24 +51,35 @@ namespace GymConnect.Api.Services
             return users;
         }
 
-        public async Task<IEnumerable<UserDto>> SearchUsersAsync(string useName, string city)
+
+
+
+
+
+        public async Task<IEnumerable<UserDto>> SearchAsync(string query)
         {
+            query = query?.ToLower() ?? "";
+
             var users = await _context.users
-            .Include(u => u.Gym)
-            .Where(u => u.Gym != null && u.Gym.City == city &&
-                        (u.FirstName.Contains(useName) || u.LastName.Contains(useName)))
-            .ToListAsync();
+                .Include(u => u.Gym)
+                .Where(u =>
+                    u.FirstName.ToLower().Contains(query) ||
+                    u.LastName.ToLower().Contains(query) ||
+                    u.Gym.City.ToLower().Contains(query))
+                .ToListAsync();
 
             return users.Select(u => new UserDto
             {
                 Id = u.Id,
+                FirstName = u.FirstName,
+                LastName = u.LastName,
                 FullName = u.FirstName + " " + u.LastName,
-                Country = u.Gym?.Country ?? "",
-                City = u.Gym?.City ?? ""
+                City = u.Gym?.City ?? "",
+                Country = u.Gym?.Country ?? ""
             });
         }
 
-          
+
 
         //public async Task<UserResponseDto?> GetByEmailAsync(string email)
         //{
