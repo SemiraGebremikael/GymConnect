@@ -3,7 +3,7 @@ import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { UserDto } from '../../dto/userDto';
 import { UserService } from '../../services/user-service/user-service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MessageResponseDto } from '../../dto/message-response-dto';
 import { ChatService } from '../../services/chat-service/chat.service';
 import { GetConversationRequestDto } from '../../dto/get-conversation-request-dto';
@@ -27,6 +27,8 @@ import { MatButtonModule } from '@angular/material/button';
   public userService = inject(UserService);
   public chatService = inject(ChatService);
   public route = inject(ActivatedRoute);
+  public router = inject(Router);
+
 
  
 
@@ -40,7 +42,7 @@ ngOnInit(): void {
 }
 
 goBack(): void {
-  window.history.back();
+   this.router.navigate(['/user'])
 }
 loadConversation(otherUserId: string): void {
   if (!this.currentUserId) return;
