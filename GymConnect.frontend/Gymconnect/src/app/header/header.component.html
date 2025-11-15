@@ -1,11 +1,9 @@
 <div class="container">
-    <div>
+    <!-- <div>
         <img src="assets/logo.png" alt="App Logo" class="logo">
-    </div>
+    </div> -->
     <div class="heder-input"> 
-            <input type="text" placeholder="Search..." class="search-bar">
-            <!-- <mat-icon class="search-icon" (click)="search()" >search</mat-icon> -->
-    </div>
+        <input [(ngModel)]="searchText" placeholder="Search user..." />
+        <button (click)="onSearchClick()">Search</button>
+        </div>
 </div>
-
-<router-outlet></router-outlet>

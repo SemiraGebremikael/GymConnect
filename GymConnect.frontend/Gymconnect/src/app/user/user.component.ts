@@ -5,10 +5,14 @@ import { UserService } from '../services/user-service/user-service';
 import { FormsModule } from '@angular/forms';
 import { UserDto } from '../dto/userDto';
 import { Router, RouterModule } from '@angular/router';
+import { HeaderComponent } from '../header/header.component';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatCardModule } from '@angular/material/card';
+import { MatSortModule } from '@angular/material/sort';
 @Component({
   selector: 'app-user',
   standalone: true,
-  imports: [CommonModule,FormsModule,RouterModule],
+  imports: [CommonModule,FormsModule, HeaderComponent, MatCardModule,MatTableModule,MatSortModule],
   templateUrl: './user.component.html',
   styleUrl: './user.component.scss',
   
@@ -22,7 +26,8 @@ export class UserComponent {
   gymToFetch = 'nordicgym';
   currentUserId = '7bccf14b-9ab0-43ed-bc81-1ae6d1cf02df'; 
 
-
+displayedColumns: string[] = ['fullName', 'city', 'country'];
+  dataSource = new MatTableDataSource<UserDto>([]);
 
   constructor(public userService: UserService, private router: Router) {
     this.users$ = this.userService.user$;
@@ -31,12 +36,14 @@ export class UserComponent {
   ngOnInit(): void {
     this.userService.loadUsers(this.gymToFetch);
      this.userService.user$.subscribe(users => {
-      this.users = users;
+      this.dataSource.data = users;
       if (users.length > 0) {
         this.selectedIndex = 0;
         this.selectedUser = this.users[0]; 
       }
-    });
+    });;
+
+
   }
 
 selectUser(user: UserDto) {
@@ -49,17 +56,8 @@ selectUser(user: UserDto) {
 }
 
 
-previousUser() {
-    if (this.users.length === 0) return;
-    this.selectedIndex = (this.selectedIndex - 1 + this.users.length) % this.users.length;
-    this.selectedUser = this.users[this.selectedIndex];
+ onSearch(query: string) {
+    this.userService.searchUsers(query);
   }
-
-  nextUser() {
-    if (this.users.length === 0) return;
-    this.selectedIndex = (this.selectedIndex + 1) % this.users.length;
-    this.selectedUser = this.users[this.selectedIndex]; 
-  }
-
 
 }

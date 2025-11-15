@@ -35,4 +35,11 @@ getConversation(request: GetConversationRequestDto): Observable<MessageResponseD
   return this.http.get<MessageResponseDto[]>(`${this.baseUrl}/message/GetConversation`, { params });
 
 }
+
+searchUsers(query: string): Observable<UserDto[]> {
+    return this.http.get<UserDto[]>(`${this.baseUrl}/User/Search`, {
+      params: { query }
+    });
+  }
+
 }

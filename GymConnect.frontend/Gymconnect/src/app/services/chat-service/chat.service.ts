@@ -16,7 +16,6 @@ export class ChatService {
  sendMessage(request: MessageRequestDto): Observable<MessageResponseDto> | undefined {
     if (!request.ReceiverId) return;
         console.log(' Sending message to API:', request);
-
     return this.apiService.sendMessage(request);
   }
   

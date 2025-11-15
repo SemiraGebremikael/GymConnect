@@ -1,16 +1,22 @@
 
-<div *ngIf="users.length === 0">
-  <p>Loading users or no users found.</p>
-</div>
-  <h2>Users in gym: {{ gymToFetch }}</h2>
+<app-header (searchEvent)="onSearch($event)"></app-header>
 
-<div *ngIf="users.length > 0" class="story-container">
-  <button class="nav-btn left" (click)="previousUser()">&lt;</button>
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z3" >
+  <ng-container matColumnDef="fullName" >
+    <th mat-header-cell *matHeaderCellDef>Full Name</th>
+    <td mat-cell *matCellDef="let user">{{ user.fullName }}</td>
+  </ng-container>
 
-<div class="user-card" (click)="selectUser(selectedUser!)">
-    <p class="name">{{ selectedUser?.fullName }}</p>
-    <small class="location">{{ selectedUser?.country }} - {{ selectedUser?.city }}</small>
-  </div>
+  <ng-container matColumnDef="city">
+    <th mat-header-cell *matHeaderCellDef>City</th>
+    <td mat-cell *matCellDef="let user">{{ user.city }}</td>
+  </ng-container>
 
-  <button class="nav-btn right" (click)="nextUser()">&gt;</button>
-</div>
+  <ng-container matColumnDef="country">
+    <th mat-header-cell *matHeaderCellDef>Country</th>
+    <td mat-cell *matCellDef="let user">{{ user.country }}</td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"  ></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"  (click)="selectUser(row)" ></tr>
+</table>

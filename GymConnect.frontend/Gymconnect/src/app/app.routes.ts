@@ -5,21 +5,21 @@ import { HeaderComponent } from './header/header.component';
 
 export const routes: Routes = [
     {
-    path:'', component: HeaderComponent ,
-     children: [
-      { path: '', component: UserComponent },
-      { path: 'chat/:id', component: UserChatComponent }
-    ]
+    path:'user', component: HeaderComponent ,
+    //  children: [
+    //   { path: '', component: UserComponent },
+    //   { path: 'chat/:id', component: UserChatComponent }
+    // ]
     }
-    // ,{ 
-    //     path: 'user', component: UserComponent,
-    //     // children: [
-    //     //     {
-    //     //         path: 'chat', component: UserChatComponent
-    //     //     }
-    //     // ]
-    // }, 
-    // {
-    //             path: 'chat/:id', component: UserChatComponent,
-    // }
+    ,{ 
+        path: '', component: UserComponent,
+        // children: [
+        //     {
+        //         path: 'chat', component: UserChatComponent
+        //     }
+        // ]
+    }, 
+    {
+                path: 'chat/:id', component: UserChatComponent,
+    }
 ];

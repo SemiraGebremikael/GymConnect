@@ -25,8 +25,7 @@ import { MatButtonModule } from '@angular/material/button';
   currentUserId = '7bccf14b-9ab0-43ed-bc81-1ae6d1cf02df'; 
 
   public userService = inject(UserService);
-    public chatService = inject(ChatService);
-
+  public chatService = inject(ChatService);
   public route = inject(ActivatedRoute);
 
  
