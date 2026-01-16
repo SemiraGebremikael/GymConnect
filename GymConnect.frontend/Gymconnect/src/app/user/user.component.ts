@@ -23,8 +23,8 @@ export class UserComponent {
   selectedIndex: number = 0;
   selectedUser: UserDto | null = null;
   selectedUserId: string | null = null;
-  gymToFetch = 'nordicgym';
-  currentUserId = '9ebb8bff-e27e-42fb-a577-2b2174d4720b';  // selu  user id
+  gymToFetch = 'nordic';
+  currentUserId = '581c146b-067f-43de-9d0f-acd37113c258';  // Tomas  user id
 
 displayedColumns: string[] = ['fullName', 'city', 'country'];
   dataSource = new MatTableDataSource<UserDto>([]);
@@ -35,7 +35,7 @@ displayedColumns: string[] = ['fullName', 'city', 'country'];
 
   ngOnInit(): void {
     this.userService.loadUsers(this.gymToFetch);
-     this.userService.user$.subscribe(users => {
+    this.userService.user$.subscribe(users => {
       this.dataSource.data = users;
       if (users.length > 0) {
         this.selectedIndex = 0;
@@ -52,7 +52,6 @@ selectUser(user: UserDto) {
   this.userService.selectedUser = user;
   this.router.navigate(['/chat', user.id]); 
   console.log('User clicked:', user.id);
-  console.log('Selected user id:', this.userService.selectedUserId); 
 }
 
 

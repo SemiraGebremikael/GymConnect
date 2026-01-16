@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace GymConnect.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251024024322_InitialCreate")]
+    [Migration("20260104162945_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />

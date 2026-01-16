@@ -4,6 +4,6 @@ export class MessageResponseDto {
     id : string = '';
     content : string = '';
     createdAt : Date = new Date();
-    sender : UserDto = new UserDto()
-    receiver : UserDto = new UserDto();
+    sender : UserDto | null = null;
+    receiver : UserDto | null = null;
 }

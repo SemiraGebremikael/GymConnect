@@ -13,15 +13,28 @@ export class ChatService {
 
   constructor() {}
 
- sendMessage(request: MessageRequestDto): Observable<MessageResponseDto> | undefined {
-    if (!request.ReceiverId) return;
-        console.log(' Sending message to API:', request);
+//  sendMessage(request: MessageRequestDto): Observable<MessageResponseDto> | undefined {
+//     if (!request.ReceiverId) return;
+//         console.log(' Sending message to API:', request);
+//     return this.apiService.sendMessage(request);
+//   }
+
+  
+  sendMessage(request: MessageRequestDto): Observable<MessageResponseDto> {
     return this.apiService.sendMessage(request);
   }
   
 
-  getConversation(request:GetConversationRequestDto): Observable<MessageResponseDto[]> {
-    return this.apiService.getConversation(request);
+//   getConversation(request:GetConversationRequestDto): Observable<MessageResponseDto[]> {
+//     console.log('ChatService: Fetching conversation between', request.userId, 'and', request.otherUserId);
+//     return this.apiService.getConversation(request);
+// }
+
+
+
+getConversation(request: GetConversationRequestDto): Observable<MessageResponseDto[]> {
+  console.log('ChatService: Fetching conversation between', request.userId, 'and', request.otherUserId);
+  return this.apiService.getConversation(request);
 }
 
 }
