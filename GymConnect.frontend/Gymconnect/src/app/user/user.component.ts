@@ -24,7 +24,7 @@ export class UserComponent {
   selectedUser: UserDto | null = null;
   selectedUserId: string | null = null;
   gymToFetch = 'nordicgym';
-  currentUserId = '7bccf14b-9ab0-43ed-bc81-1ae6d1cf02df'; 
+  currentUserId = '9ebb8bff-e27e-42fb-a577-2b2174d4720b';  // selu  user id
 
 displayedColumns: string[] = ['fullName', 'city', 'country'];
   dataSource = new MatTableDataSource<UserDto>([]);
@@ -51,7 +51,7 @@ selectUser(user: UserDto) {
   this.selectedUser = user;
   this.userService.selectedUser = user;
   this.router.navigate(['/chat', user.id]); 
-  console.log('User clicked:', user);
+  console.log('User clicked:', user.id);
   console.log('Selected user id:', this.userService.selectedUserId); 
 }
 
