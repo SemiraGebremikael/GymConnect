@@ -1,10 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { UserService } from '../services/user-service/user-service';
 import { FormsModule } from '@angular/forms';
 import { UserDto } from '../dto/userDto';
-import { Router, RouterModule } from '@angular/router';
+import { Router, RouterModule, NavigationEnd } from '@angular/router';
 import { HeaderComponent } from '../header/header.component';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatCardModule } from '@angular/material/card';
@@ -17,9 +17,9 @@ import { MatSortModule } from '@angular/material/sort';
   styleUrl: './user.component.scss',
   
 })
-export class UserComponent {
+export class UserComponent  {
   users$: Observable<UserDto[]>;
-  users: UserDto[] = [];
+  allUsers: UserDto[] = []; // Store the full list of users
   selectedIndex: number = 0;
   selectedUser: UserDto | null = null;
   selectedUserId: string | null = null;
@@ -29,6 +29,8 @@ export class UserComponent {
 displayedColumns: string[] = ['fullName', 'city', 'country'];
   dataSource = new MatTableDataSource<UserDto>([]);
 
+  @ViewChild(HeaderComponent) header!: HeaderComponent;
+
   constructor(public userService: UserService, private router: Router) {
     this.users$ = this.userService.user$;
   }
@@ -36,16 +38,18 @@ displayedColumns: string[] = ['fullName', 'city', 'country'];
   ngOnInit(): void {
     this.userService.loadUsers(this.gymToFetch);
     this.userService.user$.subscribe(users => {
-      this.dataSource.data = users;
-      if (users.length > 0) {
-        this.selectedIndex = 0;
-        this.selectedUser = this.users[0]; 
+      if (this.allUsers.length === 0) {
+        this.allUsers = users; // Store full list only on initial load
       }
-    });;
-
-
+      this.dataSource.data = users;
+      if (users.length > 0 && !this.selectedUser) {
+        this.selectedIndex = 0;
+        this.selectedUser = users[0]; 
+      }
+    });
   }
 
+ 
 selectUser(user: UserDto) {
    if (!user) return; 
   this.selectedUser = user;
@@ -56,7 +60,11 @@ selectUser(user: UserDto) {
 
 
  onSearch(query: string) {
-    this.userService.searchUsers(query);
+    if (query.trim() === '') {
+      this.dataSource.data = this.allUsers; // Show all users when search is empty
+    } else {
+      this.userService.searchUsers(query);
+    }
   }
 
 }

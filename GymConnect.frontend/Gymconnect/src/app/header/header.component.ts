@@ -15,8 +15,12 @@ export class HeaderComponent {
 @Output() searchEvent = new EventEmitter<string>();
   searchText = '';
 
-  onSearchClick() {
+  onSearchInput() {
     this.searchEvent.emit(this.searchText.trim());
+  }
+
+  clearSearch() {
+    this.searchText = '';
   }
 
 }

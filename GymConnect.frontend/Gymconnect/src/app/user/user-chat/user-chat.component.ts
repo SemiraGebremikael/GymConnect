@@ -35,12 +35,9 @@ import { MessageRequestDto } from '../../dto/message-request-dto';
 
 ngOnInit(): void {
   const otherUserId = this.route.snapshot.paramMap.get('id');
-  console.log('ngOnInit: otherUserId:', otherUserId);
-  console.log('Current users in service:', this.userService.getCurrentUsers());
   if (otherUserId) {
     this.selectedUserId = otherUserId;
     this.selectedUser = this.userService.getUserById(otherUserId);
-    console.log('selectedUser:', this.selectedUser);
      this.loadConversation(otherUserId);
   }
 }
@@ -66,29 +63,18 @@ loadConversation(otherUserId: string): void {
   }
 
 
-
-
-
-
 sendMessage(): void {
-  console.log('sendMessage called');
-  console.log('selectedUser:', this.selectedUser);
-  console.log('messageContent:', this.messageContent);
   if (!this.selectedUser || !this.messageContent.trim()) {
-    console.log('Early return: selectedUser or messageContent invalid');
     return;
   }
-
   const request: MessageRequestDto = {
     senderId: this.currentUserId,
     receiverId: this.selectedUser.id,
     content: this.messageContent
   };
-  console.log('Sending request:', request);
 
   this.chatService.sendMessage(request).subscribe(
     (msg) => {
-      console.log('Received msg:', msg);
       if (!msg.sender) {
         msg.sender = { id: this.currentUserId } as any;
       }
@@ -97,7 +83,6 @@ sendMessage(): void {
       this.messageContent = '';
     },
     err => {
-      console.error('Send message error:', err);
     }
   );
 }
@@ -108,5 +93,3 @@ sendMessage(): void {
   
  }
 
-
- 
