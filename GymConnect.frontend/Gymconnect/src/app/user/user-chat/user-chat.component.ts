@@ -22,7 +22,9 @@ import { MessageRequestDto } from '../../dto/message-request-dto';
   selectedUser : UserDto | null = null;
   messageContent: string = '';
   selectedUserId: string | null = null;
-    messages: MessageResponseDto[] = [];
+  messages: MessageResponseDto[] = [];
+  allUsers: UserDto[] = [];
+
   currentUserId = '581c146b-067f-43de-9d0f-acd37113c258'; // Tomas user id
 
   public userService = inject(UserService);
@@ -91,5 +93,5 @@ sendMessage(): void {
 
 
   
- }
+}
 

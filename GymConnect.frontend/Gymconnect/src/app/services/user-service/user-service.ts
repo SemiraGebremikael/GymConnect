@@ -12,7 +12,8 @@ export class UserService {
 
   private apiService = inject(ApiServices);
   private isLoading = false;
-   private users: UserDto[] = [];
+  private users: UserDto[] = [];
+  allUsers: UserDto[] = []; 
   selectedUserId: string | null = null;
   selectedUser: UserDto | null = null;
 
@@ -23,12 +24,14 @@ export class UserService {
 
     const cachedUsers = this.usersSubject.getValue();
     if (cachedUsers.length > 0) {
+      this.usersSubject.next(this.allUsers);
       return;
     }
 
     this.isLoading = true;
     this.apiService.getAllUsers(gymName).subscribe({
       next: (data: UserDto[]) => {
+        this.allUsers = data; // Store full list
         this.usersSubject.next(data);
         this.isLoading = false;
       },
@@ -56,7 +59,6 @@ selectUser(user: UserDto) {
 
 
 searchUsers(query: string) {
-        console.log('UserService: Searching for:', query);
     this.apiService.searchUsers(query).subscribe({
       next: data => this.usersSubject.next(data),
       error: err => console.error(err)

@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { UserService } from '../services/user-service/user-service';
@@ -17,9 +17,8 @@ import { MatSortModule } from '@angular/material/sort';
   styleUrl: './user.component.scss',
   
 })
-export class UserComponent  {
+export class UserComponent implements AfterViewInit {
   users$: Observable<UserDto[]>;
-  allUsers: UserDto[] = []; // Store the full list of users
   selectedIndex: number = 0;
   selectedUser: UserDto | null = null;
   selectedUserId: string | null = null;
@@ -31,20 +30,30 @@ displayedColumns: string[] = ['fullName', 'city', 'country'];
 
   @ViewChild(HeaderComponent) header!: HeaderComponent;
 
-  constructor(public userService: UserService, private router: Router) {
+  constructor(public userService: UserService, private router: Router, private cdr: ChangeDetectorRef) {
     this.users$ = this.userService.user$;
   }
 
   ngOnInit(): void {
     this.userService.loadUsers(this.gymToFetch);
     this.userService.user$.subscribe(users => {
-      if (this.allUsers.length === 0) {
-        this.allUsers = users; // Store full list only on initial load
-      }
       this.dataSource.data = users;
+      this.dataSource.filter = ''; 
       if (users.length > 0 && !this.selectedUser) {
         this.selectedIndex = 0;
         this.selectedUser = users[0]; 
+      }
+    });
+  }
+
+  ngAfterViewInit(): void {
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        if (event.urlAfterRedirects === '/user') {
+          if (this.header) {
+            this.header.clearSearch();
+          } 
+        }
       }
     });
   }
@@ -55,16 +64,19 @@ selectUser(user: UserDto) {
   this.selectedUser = user;
   this.userService.selectedUser = user;
   this.router.navigate(['/chat', user.id]); 
-  console.log('User clicked:', user.id);
 }
 
 
  onSearch(query: string) {
     if (query.trim() === '') {
-      this.dataSource.data = this.allUsers; // Show all users when search is empty
+      this.dataSource.data = [...this.userService.allUsers];
+      this.dataSource.filter = '';
+      this.cdr.detectChanges();
     } else {
       this.userService.searchUsers(query);
     }
   }
+
+
 
 }
