@@ -1,22 +1,25 @@
 
 <app-header (searchEvent)="onSearch($event)"></app-header>
 
-<table mat-table [dataSource]="dataSource" class="mat-elevation-z3" >
-  <ng-container matColumnDef="fullName" >
-    <th mat-header-cell *matHeaderCellDef>Full Name</th>
-    <td mat-cell *matCellDef="let user">{{ user.fullName }}</td>
-  </ng-container>
-
-  <ng-container matColumnDef="city">
-    <th mat-header-cell *matHeaderCellDef>City</th>
-    <td mat-cell *matCellDef="let user">{{ user.city }}</td>
-  </ng-container>
-
-  <ng-container matColumnDef="country">
-    <th mat-header-cell *matHeaderCellDef>Country</th>
-    <td mat-cell *matCellDef="let user">{{ user.country }}</td>
-  </ng-container>
-
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"  ></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;"  (click)="selectUser(row)" ></tr>
-</table>
+<mat-card class="user-list-card">
+  <mat-card-header>
+    <mat-card-title>Gym Members</mat-card-title>
+    <mat-card-subtitle>Find and connect with fellow gym enthusiasts</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="user-grid">
+      <mat-card *ngFor="let user of dataSource.data" class="user-card mat-elevation-z2" (click)="selectUser(user)">
+        <mat-card-content class="user-content">
+          <div class="user-info">
+            <mat-icon class="user-icon">person</mat-icon>
+            <span class="user-name">{{ user.fullName }}</span>
+          </div>
+          <div class="user-location">
+            <mat-icon class="location-icon">location_on</mat-icon>
+            <span>{{ user.city }}, {{ user.country }}</span>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </mat-card-content>
+</mat-card>

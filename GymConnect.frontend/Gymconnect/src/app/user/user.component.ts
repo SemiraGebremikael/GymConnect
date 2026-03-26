@@ -23,7 +23,7 @@ export class UserComponent implements AfterViewInit {
   selectedIndex: number = 0;
   selectedUser: UserDto | null = null;
   selectedUserId: string | null = null;
-  gymToFetch = 'nordicgym';
+  gymToFetch = 'member24';
   currentUserId = '581c146b-067f-43de-9d0f-acd37113c258';  // Tomas  user id
 
 displayedColumns: string[] = ['fullName', 'city', 'country'];
