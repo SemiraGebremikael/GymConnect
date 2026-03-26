@@ -9,10 +9,11 @@ import { HeaderComponent } from '../header/header.component';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatCardModule } from '@angular/material/card';
 import { MatSortModule } from '@angular/material/sort';
+import { MatIconModule } from '@angular/material/icon';
 @Component({
   selector: 'app-user',
   standalone: true,
-  imports: [CommonModule,FormsModule, HeaderComponent, MatCardModule,MatTableModule,MatSortModule],
+  imports: [CommonModule,FormsModule, HeaderComponent, MatCardModule,MatTableModule,MatSortModule, MatIconModule],
   templateUrl: './user.component.html',
   styleUrl: './user.component.scss',
   
@@ -22,7 +23,7 @@ export class UserComponent implements AfterViewInit {
   selectedIndex: number = 0;
   selectedUser: UserDto | null = null;
   selectedUserId: string | null = null;
-  gymToFetch = 'nordic';
+  gymToFetch = 'nordicgym';
   currentUserId = '581c146b-067f-43de-9d0f-acd37113c258';  // Tomas  user id
 
 displayedColumns: string[] = ['fullName', 'city', 'country'];
