@@ -1,6 +1,7 @@
 .user-list-card {
+  height:  100%;
   max-width: 1000px;
-  margin: 20px auto;
+  margin: 30px auto;
   border-radius: 12px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -8,6 +9,7 @@
 
   mat-card-header {
     padding-bottom: 16px;
+    
 
     mat-card-title {
       font-size: 24px;
@@ -23,10 +25,13 @@
 
   mat-card-content {
     padding: 16px;
+     max-height: 600px;
+  overflow-y : auto;
   }
 }
 
 .user-grid {
+ 
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 16px;

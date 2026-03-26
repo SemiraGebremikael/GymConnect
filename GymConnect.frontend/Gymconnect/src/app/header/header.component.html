@@ -1,9 +1,6 @@
 <div class="container">
-    <!-- <div>
-        <img src="assets/logo.png" alt="App Logo" class="logo">
-    </div> -->
-    <div class="heder-input"> 
-        <input [(ngModel)]="searchText" placeholder="Search user..." (input)="onSearchInput()" />
-                <button (click)="onSearchInput()">Search</button>
-        </div>
+    <div class="header-input">
+        <input [(ngModel)]="searchText" placeholder="Search users..." (input)="onSearchInput()" class="search-input" />
+        <button (click)="onSearchInput()" class="search-button">Search</button>
+    </div>
 </div>
